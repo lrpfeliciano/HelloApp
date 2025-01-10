@@ -14,7 +14,7 @@ const CriarTarefa = () => {
     const[descricao, setDescricao] = useState('');
     
     const [userId, setUserId] = useState(null);
-    
+
     useEffect(() => {
         const usuario = onAuthStateChanged(auth, user => {
             if (user){
