@@ -4,26 +4,30 @@ import { useNavigation } from '@react-navigation/native';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, banco } from '../backend/FirebaseConfig';
 import { collection, query, where, getDocs, doc, deleteDoc } from "firebase/firestore";
-const InternaScreen = () => {
+const InternaScreen = ({navigation}) => {
     const [userId, setUserId] = useState(null);
     const [tarefas, setTarefas] = useState(null);
 
     const buscarTarefas = async () => {
-        const q = query(collection(banco, "tarefas"), where("userId", "==", userId));
-        const snapshot = await getDocs(q);
-        const dados = snapshot.docs.map(doc => ({...doc.data(), id:doc.id}));
+        try {
+            const q = query(collection(banco, "tarefas"), where("userId", "==", userId));
+            const snapshot = await getDocs(q);
+            const dados = snapshot.docs.map(doc => ({...doc.data(), id:doc.id}));
 
-        setTarefas(dados);
+            setTarefas(dados);
+        } catch(error) {
+            Alert.alert("Erro: ", error.message);
+        }
     };
 
     useEffect(() => {
         const usuario = onAuthStateChanged(auth, user =>{
             if (user){
                 setUserId(user.uid);
-                buscarTarefas();
             } else {
                 setUserId(null);
             }
+            buscarTarefas();
         });
 
         return () => usuario();
@@ -55,13 +59,13 @@ const InternaScreen = () => {
     };
 
     const abrirEdicao = (id) => {
-        navegacao.navigate("CriarTarefa");
+        navigation.navigate("CriarTarefa", {idTarefa: id});
     };
     const navegacao = useNavigation();
     return (
         <View>
             <Text>Bem vindo</Text>
-            <Button title="Nova Tarefa" onPress={() => navegacao.navigate('CriarTarefa')} />
+            <Button title="Nova Tarefa" onPress={() => navigation.navigate('CriarTarefa', {idTarefa: ''})} />
         
             <FlatList data={tarefas} renderItem={ ({ item }) => (
                 <View>

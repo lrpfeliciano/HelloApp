@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {Alert} from 'react-native';
 
 export const validacaoFormularioUsuario = (email, senha) => {
@@ -21,3 +22,4 @@ export const exibirMensagemValidacao = (erros) => {
     }
     Alert.alert("Erro", msg);
 }
+
