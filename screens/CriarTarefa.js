@@ -6,6 +6,7 @@ import { useNavigation } from  '@react-navigation/native'; //Hoje
 
 import { auth } from '../backend/FirebaseConfig';
 import { onAuthStateChanged } from 'firebase/auth';
+import { styles } from '../util/Estilos';
 
 const CriarTarefa = ({route}) => {
     const[nome, setNome] = useState('');
@@ -78,11 +79,19 @@ const CriarTarefa = ({route}) => {
 
     }
     return (
-        <View>
+        <View style={styles.tela}>
             <Text>{idTarefa}</Text>
-            <TextInput placeholder='Nome da Tarefa' value={nome} onChangeText={setNome} />
-            <TextInput placeholder='Descrição' value={descricao} onChangeText={setDescricao} />
-            <Button title={idTarefa == "" ? 'Cadastrar': 'Alterar'} onPress={cadastrar} />
+            <TextInput style={styles.campos} 
+                       placeholder='Nome da Tarefa' 
+                       value={nome} 
+                       onChangeText={setNome} />
+            <TextInput style={styles.campos} 
+                       placeholder='Descrição' 
+                       value={descricao} 
+                       onChangeText={setDescricao} />
+            <Button style={styles.botaoAcesso} 
+                    title={idTarefa == "" ? 'Cadastrar': 'Alterar'} 
+                    onPress={cadastrar} />
         </View>
     );
 }

@@ -3,6 +3,8 @@ import { View, Text, TextInput, Button, Alert} from 'react-native';
 import { auth, signInWithEmailAndPassword } from '../backend/FirebaseConfig';
 import { useNavigation } from  '@react-navigation/native';
 import { validacaoFormularioUsuario, exibirMensagemValidacao } from '../util/Validacao';
+import { styles } from '../util/Estilos';
+
 const LoginScreen = () => {
     const navegacao = useNavigation();
     const [email, setEmail] = useState('');
@@ -24,13 +26,13 @@ const LoginScreen = () => {
     };
 
     return (
-        <View>
-            <Text>E-mail</Text>
-            <TextInput value={email} onChangeText={setEmail} />
-            <Text>Senha</Text>
-            <TextInput value={senha} onChangeText={setSenha} secureTextEntry />
+        <View style={styles.tela}>
+            <Text style={styles.texto}>E-mail</Text>
+            <TextInput style={styles.campos} value={email} onChangeText={setEmail} />
+            <Text style={styles.texto}>Senha</Text>
+            <TextInput style={styles.campos} value={senha} onChangeText={setSenha} secureTextEntry />
 
-            <Button title="Entrar" onPress={executarLogin}/>
+            <Button style={styles.botaoAcesso} title="Entrar" onPress={executarLogin}/>
         </View>
 
     );

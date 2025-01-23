@@ -8,7 +8,7 @@ const HomeScreen = () => {
     const navegacao = useNavigation();
     return (
        <View style={styles.container}>
-        <Text>Olá Mundo!</Text>
+        <Text style={{color: '#f00'}}>Olá Mundo!</Text>
         <Button title="Ir para Login" onPress={() => navegacao.navigate('Login')} />
         <StatusBar style="auto" />
        </View>

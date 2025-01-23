@@ -1,9 +1,12 @@
 import React, {useState, useEffect}  from "react";
-import { View, Text, Button, FlatList, Alert } from 'react-native';
+import { View, Text, FlatList, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, banco } from '../backend/FirebaseConfig';
 import { collection, query, where, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { styles } from '../util/Estilos';
+import Button from 'react-native-button';
+
 const InternaScreen = ({navigation}) => {
     const [userId, setUserId] = useState(null);
     const [tarefas, setTarefas] = useState(null);
@@ -29,9 +32,7 @@ const InternaScreen = ({navigation}) => {
             }
             buscarTarefas();
         });
-
         return () => usuario();
-        
     }, []);
 
     const excluirTarefa = (id) => {
@@ -63,17 +64,27 @@ const InternaScreen = ({navigation}) => {
     };
     const navegacao = useNavigation();
     return (
-        <View>
-            <Text>Bem vindo</Text>
-            <Button title="Nova Tarefa" onPress={() => navigation.navigate('CriarTarefa', {idTarefa: ''})} />
+        <View style={styles.tela}>
+            <Text style={styles.texto}>Bem vindo</Text>
+            <Button  style={styles.botaoNovo}
+                onPress={() => navigation.navigate('CriarTarefa', {idTarefa: ''})} >
+                Nova Tarefa
+            </Button>    
         
-            <FlatList data={tarefas} renderItem={ ({ item }) => (
+            <FlatList data={tarefas}  keyExtractor={item => item.id} 
+                renderItem={ ({ item }) => (
                 <View>
-                    <Text>{ item.nome }</Text>
+                    <Text style={styles.texto}>{ item.nome }</Text>
                     <Text>{ item.descricao }</Text>
-                    <Button title="Editar" onPress={() => abrirEdicao(item.id)} />
-                    <Button title="Excluir" onPress={() => excluirTarefa(item.id)} />
+                    <View style={styles.lado_a_lado}>
+                        <Button style={styles.botaoAlterar} 
+                                onPress={() => abrirEdicao(item.id)}>Editar</Button>
+                        <Button style={styles.botaoExcluir}  
+                                onPress={() => excluirTarefa(item.id)} >Excluir</Button>
+
+                    </View>        
                 </View>
+                
                 )}                    
             />
         </View>
